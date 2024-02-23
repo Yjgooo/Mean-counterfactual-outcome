@@ -43,28 +43,37 @@ def estimators(type, W, A, Y):
         return coefficients[0]
         
     def est_2(): #known g(W)
+
         return 1 / len(Y) * sum(A * Y / g_0(W))
         
     def est_3(): #estimate of g_n(W) (logistic regression)
 
-        ones = np.ones((len(Y), 1))
+        ones = np.ones((len(Y), 1)) #column vector 
         design = np.column_stack((ones, W))
 
         model = LogisticRegression()
-        model.fit(design, A)
+        model.fit(design, A.reshape(-1))
 
-        g_n_predict = model.predict(design)
+        g_n_predict_vec = model.predict_proba(design)
+        g_n_predict = g_n_predict_vec[:, 1]
+
+        #print(f"Coefficients: {model.coef_}")
+
+        #reshape 
+        A_ =  np.array(A).reshape(-1)
+        Y_ = np.array(Y).reshape(-1)
+        g_n_predict_ = np.array(g_n_predict).reshape(-1)
         
-        return 1 / len(Y) * sum(A * Y / g_n_predict)
+        return 1 / len(Y) * sum(A_ * Y_ / g_n_predict_)
     
     if type == 0:
         return est_1()
     elif type == 1:
         return est_2()
     elif type == 2:
-        return est_2()
+        return est_3()
     else:
-        raise TypeError("Argument must be an one, two, or three")
+        raise TypeError("Wrong Argument")
             
         
     
@@ -115,7 +124,7 @@ def simulation_plot():
     plt.legend()
     plt.title("sd comparison")
     plt.savefig('sd.png')
-    plt.show()
+    #plt.show()
 
     plt.figure()
     plt.plot(X, mse[0], label='estimator 0')
@@ -127,14 +136,7 @@ def simulation_plot():
     plt.show()
 
     
-
-    
 simulation_plot()
 
-
-"""
-W,A,Y = generate_data(100000)
-print(estimators(2, W,A,Y))
-"""
-
-    
+#W,A,Y = generate_data(1000000)
+#print(estimators(2, W,A,Y))
