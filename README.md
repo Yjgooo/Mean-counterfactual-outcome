@@ -1,7 +1,8 @@
 # Mean-counterfactual-outcome
 578B HW1 Q4
 
-By checking the plot, one can see that the estimator 1 has the best performance in terms of MSE. This is unsurprising, as OLS is the BLUE (and the same holds for any linear combination of the coefficients). 
-The other two estimates also didn't utilize the linear model assumption of the conditional Y| A=a, W=w (though we know that utilizing known information doesn't neccesarily lead to smaller variance). 
+By checking the plot, one can see that estimator 1 has the best performance in terms of MSE. This is unsurprising, as OLS is the BLUE (and the same holds for any linear combination of the coefficients). 
 
-Estimator 2 and 3 perform very similarly. Meaning that in this specific setting the estimation of g(W) = P(A = 1|W) costs us very little. 
+The other two estimates didn't utilize the linear model assumption of the conditional Y| A=a, W=w. (though this doesn't always imply worse performance, as utilizing known model information doesn't necessarily give better estimators). 
+
+Surprisingly, estimator 3 outperforms estimator 2 in both variance and MSE. In other words, using the estimated g_n(W) rather than the true g(W) actually improves estimation. The only cost is that it induces more bias. 
